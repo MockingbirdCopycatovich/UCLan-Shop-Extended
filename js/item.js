@@ -12,7 +12,7 @@ burgerBtn.addEventListener("click", () => {
     // In CSS, this class is used to display the mobile menu.
     mobileMenu.classList.toggle("active");
 });
-
+/*
 // Get the selected product from sessionStorage
 // The data was saved on the products.html page
 const selected = sessionStorage.getItem("selectedItem");
@@ -73,4 +73,4 @@ document.addEventListener("click", (event) => {
         localStorage.setItem("cart", JSON.stringify(cart));
         alert("Added to cart!");
     }
-});
+}); */
