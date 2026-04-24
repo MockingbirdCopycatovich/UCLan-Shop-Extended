@@ -1,4 +1,45 @@
-<?php include "conn.php"; ?>
+<?php include "conn.php"; 
+    $error = "";
+
+    if(!isset($_GET['id'])){
+        die("No product selected");
+    }
+
+    $id = (int)$_GET['id'];
+
+    if($_SERVER["REQUEST_METHOD"] === "POST"){
+
+        $rating = $_POST['rating'] ?? null;
+
+        if(empty($rating)){
+            $error = "Please select rating";
+        }
+
+        if(empty($error)){
+
+            $stmt = $conn->prepare("
+                INSERT INTO tbl_reviews 
+                (product_id, user_id, review_title, review_desc, review_rating)
+                VALUES (?, ?, ?, ?, ?)
+            ");
+
+            $stmt->bind_param(
+                "iissi",
+                $id,
+                $_SESSION['user_id'],
+                $_POST['title'],
+                $_POST['desc'],
+                $_POST['rating']
+            );
+
+            $stmt->execute();
+
+            // redirect to avoid duplicate submit
+            header("Location: item.php?id=".$id);
+            exit;
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -149,44 +190,23 @@
 
             <div class="form-group">
                 <label>Rating</label>
+
+                <?php if(!empty($error)): ?>
+                    <p class="error-msg"><?php echo $error; ?></p>
+                <?php endif; ?>
+
                 <div class="rating">
                     <input type="radio" name="rating" value="5" id="star5"><label for="star5">★</label>
                     <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
                     <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
                     <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
-                    <input type="radio" name="rating" value="1" id="star1" required><label for="star1">★</label>
+                    <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
                 </div>
             </div>
 
             <button type="submit" class="submit-review">Submit Review</button>
 
         </form>
-
-        <?php
-            if($_SERVER["REQUEST_METHOD"] === "POST"){
-
-                $stmt = $conn->prepare("
-                    INSERT INTO tbl_reviews 
-                    (product_id, user_id, review_title, review_desc, review_rating)
-                    VALUES (?, ?, ?, ?, ?)
-                ");
-
-                $stmt->bind_param(
-                    "iissi",
-                    $id,
-                    $_SESSION['user_id'],
-                    $_POST['title'],
-                    $_POST['desc'],
-                    $_POST['rating']
-                );
-
-                $stmt->execute();
-
-                // redirect to avoid duplicate submit
-                header("Location: item.php?id=".$id);
-                exit;
-            }
-        ?>
 
         <?php else: ?>
             <p>You must login to leave a review.</p>
