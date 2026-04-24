@@ -369,7 +369,7 @@ footer {
     align-items: center;
 }
 
-.count-controls button {
+.count-controls button, a{
     padding: 5px 10px;
 }
 
@@ -379,6 +379,20 @@ footer {
     padding: 6px 10px;
     border: none;
     border-radius: 5px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+#clearCart {
+    padding: 10px 15px;
+    background: #999;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+#clearCart:hover {
+    background: #777;
 }
 
 /* REBRENDING */

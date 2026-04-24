@@ -13,6 +13,15 @@ burgerBtn.addEventListener("click", () => {
     mobileMenu.classList.toggle("active");
 });
 
+document.querySelector(".review-form").addEventListener("submit", function(e) {
+    const rating = document.querySelector('input[name="rating"]:checked');
+
+    if (!rating) {
+        e.preventDefault();
+        alert("Please select a rating");
+    }
+});
+
 // Get the current basket or create an empty one
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 // Current active discount (promo code)
