@@ -97,35 +97,38 @@
         ?>
 
         <div class="item-page">
-            <h2><?php echo htmlspecialchars($product['product_title']); ?></h2>
+            <div class="item-card">
 
-            <img src="../media/<?php echo htmlspecialchars($product['product_src']); ?>">
+                <img src="../media/<?php echo htmlspecialchars($product['product_src']); ?>">
+                <div class = "item-info">
+                    <h2><?php echo htmlspecialchars($product['product_title']); ?></h2>
+                    <p class="item-desc"><?php echo htmlspecialchars($product['product_desc']); ?></p>
 
-            <p><?php echo htmlspecialchars($product['product_desc']); ?></p>
+                    <p class="item-price">£<?php echo htmlspecialchars($product['product_price']); ?></p>
 
-            <p>£<?php echo htmlspecialchars($product['product_price']); ?></p>
+                    <p class="item-stock">Status: <?php echo htmlspecialchars($product['product_stock']); ?></p>
 
-            <p>Status: <?php echo htmlspecialchars($product['product_stock']); ?></p>
+                    <?php
+                        $stmt = $conn->prepare("SELECT AVG(review_rating) as avg_rating FROM tbl_reviews WHERE product_id=?");
+                        $stmt->bind_param("i", $id);
+                        $stmt->execute();
+                        $res = $stmt->get_result()->fetch_assoc();
 
-            <?php if(isset($_SESSION['user_id'])): ?>
-                <a href="cart.php?add=<?php echo $id; ?>" class="add-cart-big">
-                    Add to Cart
-                </a>
-            <?php else: ?>
-                <a href="login.php">Login to buy</a>
-            <?php endif; ?>
+                        $rating = $res['avg_rating'] ? round($res['avg_rating'],1) : "No ratings yet";
+
+                        echo "<p><strong>Rating:</strong> $rating</p>";
+                    ?>
+
+                    <?php if(isset($_SESSION['user_id'])): ?>
+                        <a href="cart.php?add=<?php echo $id; ?>" class="add-cart-big">
+                            Add to Cart
+                        </a>
+                </div>
+                    <?php else: ?>
+                        <a href="login.php">Login to buy</a>
+                    <?php endif; ?>
+            </div>
         </div>
-
-        <?php
-            $stmt = $conn->prepare("SELECT AVG(review_rating) as avg_rating FROM tbl_reviews WHERE product_id=?");
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $res = $stmt->get_result()->fetch_assoc();
-
-            $rating = $res['avg_rating'] ? round($res['avg_rating'],1) : "No ratings yet";
-
-            echo "<p><strong>Rating:</strong> $rating</p>";
-        ?>
 
         <!-- REVIEWS -->
         <h3>Leave a review</h3>
@@ -151,7 +154,7 @@
                     <input type="radio" name="rating" value="4" id="star4"><label for="star4">★</label>
                     <input type="radio" name="rating" value="3" id="star3"><label for="star3">★</label>
                     <input type="radio" name="rating" value="2" id="star2"><label for="star2">★</label>
-                    <input type="radio" name="rating" value="1" id="star1"><label for="star1">★</label>
+                    <input type="radio" name="rating" value="1" id="star1" required><label for="star1">★</label>
                 </div>
             </div>
 
