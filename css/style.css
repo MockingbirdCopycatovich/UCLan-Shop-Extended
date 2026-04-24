@@ -646,3 +646,57 @@ footer {
         grid-template-columns: 1fr; /* 1 в ряд на мобилке */
     }
 }
+
+/* Offers cards */
+.offer-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    position: relative;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.offer-card h3 {
+    margin: 10px 0 5px;
+    color: #34516C;
+    font-size: 18px;
+}
+
+.offer-card p {
+    margin: 5px 0;
+    flex-grow: 1;
+    font-size: 14px;
+    color: #555;
+}
+
+.offers-grid {
+    display: grid;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+@media (min-width: 900px) {
+    .offers-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+    .offers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 599px) {
+    .offers-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.offer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}

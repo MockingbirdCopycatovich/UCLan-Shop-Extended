@@ -80,18 +80,23 @@
     -->
     <main>
         <!-- Sections with offers -->
-        <?php
-            $sql = "SELECT * FROM tbl_offers";
-            $result = $conn->query($sql);
+        <section class="offers-section">
+            <h2>Special Offers</h2>
 
-            while($row = $result->fetch_assoc()) {
-                echo "<div class='offer'>";
-                echo "<h3>" . htmlspecialchars($row['offer_title']) . "</h3>";
-                echo "<p>" . htmlspecialchars($row['offer_desc']) . "</p>";
-                echo "</div>";
-            }
-        ?>
+            <div class="offers-grid">
+                <?php
+                    $sql = "SELECT * FROM tbl_offers";
+                    $result = $conn->query($sql);
 
+                    while($row = $result->fetch_assoc()) {
+                        echo "<div class='offer-card'>";
+                        echo "<h3>" . htmlspecialchars($row['offer_title']) . "</h3>";
+                        echo "<p>" . htmlspecialchars($row['offer_desc']) . "</p>";
+                        echo "</div>";
+                    }
+                ?>
+            </div>
+        </section>
         <!-- 
             First section of content.
         -->
