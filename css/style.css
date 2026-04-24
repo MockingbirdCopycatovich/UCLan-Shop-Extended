@@ -755,3 +755,8 @@ footer {
     margin-top: 15px;
     font-size: 14px;
 }
+
+.success-msg {
+    color: green;
+    margin-bottom: 10px;
+}
