@@ -34,35 +34,57 @@ scrollTopBtn.addEventListener("click", () => {
     });
 });
 
+
 // Filter System
 const filterButtons = document.querySelectorAll(".filter-btn");
 const products = document.querySelectorAll(".product-card");
 
-// restore filters
-let activeFilter = sessionStorage.getItem("activeFilter") || "all";
+let activeFilters = JSON.parse(sessionStorage.getItem("activeFilters")) || [];
 
-function applyFilter(filter) {
+function applyFilters() {
+
     products.forEach(card => {
-        if (filter === "all") {
+        if (activeFilters.length === 0) {
             card.style.display = "block";
-        } else {
-            card.style.display = card.classList.contains(filter) ? "block" : "none";
+            return;
         }
+
+        const match = activeFilters.some(filter =>
+            card.classList.contains(filter)
+        );
+
+        card.style.display = match ? "block" : "none";
     });
 
     filterButtons.forEach(btn => {
-        btn.classList.toggle("active", btn.dataset.filter === filter);
+        btn.classList.toggle("active",
+            activeFilters.includes(btn.dataset.filter)
+        );
     });
 
-    sessionStorage.setItem("activeFilter", filter);
+    sessionStorage.setItem("activeFilters", JSON.stringify(activeFilters));
 }
 
-// initial load
-applyFilter(activeFilter);
 
-// click handlers
+//  Init function
+applyFilters();
+
+
+// Click handler for filters
 filterButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-        applyFilter(btn.dataset.filter);
+        const filter = btn.dataset.filter;
+
+        if (filter === "all") {
+            activeFilters = [];
+        } else {
+            if (activeFilters.includes(filter)) {
+                activeFilters = activeFilters.filter(f => f !== filter);
+            } else {
+                activeFilters.push(filter);
+            }
+        }
+
+        applyFilters();
     });
 });
