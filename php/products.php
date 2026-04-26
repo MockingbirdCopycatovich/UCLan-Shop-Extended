@@ -111,21 +111,23 @@
                     alt="<?php echo htmlspecialchars($row['product_title']); ?>">
 
                 <h3><?php echo htmlspecialchars($row['product_title']); ?></h3>
-
-                <p>Price: £<?php echo htmlspecialchars($row['product_price']); ?></p>
-
+                
+                <p> <?php echo htmlspecialchars($row['product_desc']); ?></p>
+                
                 <p>Status: <?php echo htmlspecialchars($row['product_stock']); ?></p>
 
                 <a class="read-more" href="item.php?id=<?php echo $row['product_id']; ?>">
                     Read more
                 </a>
+                
+                <p id="price">Price: £<?php echo htmlspecialchars($row['product_price']); ?></p>
 
                 <?php if(isset($_SESSION['user_id'])): ?>
                     <a class="add-cart" href="cart.php?add=<?php echo $row['product_id']; ?>">
                         Add to cart
                     </a>
                 <?php else: ?>
-                    <a href="login.php">Login to buy</a>
+                    <a class="login-buy" href="login.php">Login to buy</a>
                 <?php endif; ?>
 
             </div>

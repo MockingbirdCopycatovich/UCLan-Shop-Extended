@@ -187,6 +187,44 @@ footer {
     gap: 20px;
 }
 
+.add-cart {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+
+    background-color: #9BCE1E;
+    color: black;
+
+    border-radius: 6px;
+    text-decoration: none;
+
+    font-weight: bold;
+    text-align: center;
+
+    transition: 0.2s;
+}
+
+.add-cart:hover {
+    background-color: #7fb315;
+}
+
+.login-buy {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+
+    background-color: #ccc;
+    color: black;
+
+    border-radius: 6px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.login-buy:hover {
+    background-color: #aaa;
+}
+
 @media (min-width: 900px) {
     .products-grid {
         grid-template-columns: repeat(3, 1fr);
