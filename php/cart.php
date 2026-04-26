@@ -34,7 +34,57 @@
     // save cookie
     setcookie("cart", json_encode($cart), time() + 3600, "/");
 
-    // redirect to refresh cart state
+    // CHECKOUT
+    if(isset($_POST['checkout'])){
+
+        if(!isset($_SESSION['user_id'])){
+            header("Location: login.php");
+            exit;
+        }
+
+        if(!empty($cart)){
+
+            $total = 0;
+
+            foreach($cart as $id => $qty){
+
+                $stmt = $conn->prepare("SELECT product_price FROM tbl_products WHERE product_id=?");
+                $stmt->bind_param("i", $id);
+                $stmt->execute();
+                $res = $stmt->get_result()->fetch_assoc();
+
+                if($res){
+                    $total += $res['product_price'] * $qty;
+                }
+            }
+
+            // INSERT ORDER
+            // превращаем cart в строку: 1:2,3:1 (id:qty)
+            $productString = [];
+
+            foreach($cart as $id => $qty){
+                $productString[] = $id . ":" . $qty;
+            }
+
+            $productString = implode(",", $productString);
+
+            // INSERT ORDER
+            $stmt = $conn->prepare("
+                INSERT INTO tbl_orders (user_id, product_ids)
+                VALUES (?, ?)
+            ");
+
+            $stmt->bind_param("is", $_SESSION['user_id'], $productString);
+            $stmt->execute();
+
+            // clear cart
+            setcookie("cart", "", time() - 3600, "/");
+
+            $successMsg = "Thank you! Your order has been placed.";
+        }
+    }
+
+    // redirect after actions
     if(isset($_GET['add']) || isset($_GET['remove']) || isset($_GET['clear']) || isset($_GET['minus'])){
         header("Location: cart.php");
         exit;
@@ -124,6 +174,10 @@
 
             <h2>Your Cart</h2>
 
+            <?php if(!empty($successMsg)): ?>
+                <p class="success-msg"><?php echo $successMsg; ?></p>
+            <?php endif; ?>
+
             <?php
                 $cart = isset($_COOKIE['cart']) ? json_decode($_COOKIE['cart'], true) : [];
 
@@ -154,8 +208,8 @@
                                 <div class="cart-info">
                                     <h3><?php echo htmlspecialchars($product['product_title']); ?></h3>
                                     <p><?php echo htmlspecialchars($product['product_desc']); ?></p>
-                                    <p>Price: £<?php echo $price; ?></p>
-                                    <p>Subtotal: £<?php echo $sum; ?></p>
+                                    <p>Price: £<?php echo htmlspecialchars($price); ?></p>
+                                    <p>Subtotal: £<?php echo htmlspecialchars($sum); ?></p>
                                 </div>
 
                                 <a class="read-more" href="item.php?id=<?php echo $id; ?>">
@@ -191,7 +245,14 @@
 
                             <div class="cart-controls">
                                 <a id="clearCart" href="cart.php?clear=1">Clear Cart</a>
-                                <button id="payBtn">Pay</button>
+
+                                <?php if(isset($_SESSION['user_id'])): ?>
+                                    <form method="POST">
+                                        <button type="submit" name="checkout" id="payBtn">Pay</button>
+                                    </form>
+                                <?php else: ?>
+                                    <a href="login.php" class="login-buy">Login to checkout</a>
+                                <?php endif; ?>
                             </div>
                         </div>
 
