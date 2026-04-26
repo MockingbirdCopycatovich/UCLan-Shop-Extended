@@ -123,9 +123,9 @@
                 <p id="price">Price: £<?php echo htmlspecialchars($row['product_price']); ?></p>
 
                 <?php if(isset($_SESSION['user_id'])): ?>
-                    <a class="add-cart" href="cart.php?add=<?php echo $row['product_id']; ?>">
-                        Add to cart
-                    </a>
+                    <button class="add-cart" data-id="<?php echo $row['product_id']; ?>">
+                        Add to Cart
+                    </button>
                 <?php else: ?>
                     <a class="login-buy" href="login.php">Login to buy</a>
                 <?php endif; ?>

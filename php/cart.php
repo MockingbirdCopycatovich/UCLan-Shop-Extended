@@ -86,6 +86,12 @@
 
     // redirect after actions
     if(isset($_GET['add']) || isset($_GET['remove']) || isset($_GET['clear']) || isset($_GET['minus'])){
+
+        if(isset($_SERVER['HTTP_X_REQUESTED_WITH'])){
+            echo "ok";
+            exit;
+        }
+
         header("Location: cart.php");
         exit;
     }

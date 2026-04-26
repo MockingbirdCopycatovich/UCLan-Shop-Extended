@@ -100,3 +100,22 @@ filterButtons.forEach(btn => {
         applyFilters();
     });
 });
+document.addEventListener("DOMContentLoaded", () => {
+
+    document.querySelectorAll(".add-cart").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const id = btn.dataset.id;
+
+            fetch(`cart.php?add=${id}`, {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(res => res.text())
+            .then(() => {
+                alert("Product added to cart");
+            });
+        });
+    });
+
+});
