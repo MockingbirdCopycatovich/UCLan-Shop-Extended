@@ -39,12 +39,16 @@ scrollTopBtn.addEventListener("click", () => {
 const filterButtons = document.querySelectorAll(".filter-btn");
 const products = document.querySelectorAll(".product-card");
 
-let activeFilters = JSON.parse(sessionStorage.getItem("activeFilters")) || [];
+let activeFilters = JSON.parse(sessionStorage.getItem("activeFilters")) || ["all"];
 
 function applyFilters() {
 
+    if (activeFilters.length === 0) {
+        activeFilters = ["all"];
+    }
+
     products.forEach(card => {
-        if (activeFilters.length === 0) {
+        if (activeFilters.includes("all")) {
             card.style.display = "block";
             return;
         }
@@ -57,9 +61,11 @@ function applyFilters() {
     });
 
     filterButtons.forEach(btn => {
-        btn.classList.toggle("active",
-            activeFilters.includes(btn.dataset.filter)
-        );
+        const isActive =
+            activeFilters.includes(btn.dataset.filter) ||
+            (activeFilters.includes("all") && btn.dataset.filter === "all");
+
+        btn.classList.toggle("active", isActive);
     });
 
     sessionStorage.setItem("activeFilters", JSON.stringify(activeFilters));
@@ -76,12 +82,18 @@ filterButtons.forEach(btn => {
         const filter = btn.dataset.filter;
 
         if (filter === "all") {
-            activeFilters = [];
+            activeFilters = ["all"];
         } else {
+            activeFilters = activeFilters.filter(f => f !== "all");
+
             if (activeFilters.includes(filter)) {
                 activeFilters = activeFilters.filter(f => f !== filter);
             } else {
                 activeFilters.push(filter);
+            }
+
+            if (activeFilters.length === 0) {
+                activeFilters = ["all"];
             }
         }
 
