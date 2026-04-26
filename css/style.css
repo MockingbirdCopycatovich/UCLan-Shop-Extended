@@ -841,3 +841,33 @@ footer {
     color: green;
     margin-bottom: 10px;
 }
+
+/* Error page */
+.error-container {
+    text-align: center;
+    margin-top: 80px;
+}
+
+.error-container h1 {
+    font-size: 60px;
+    color: #e74c3c;
+}
+
+.error-container p {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.btn-home {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #00703c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.btn-home:hover {
+    background: #005c30;
+}

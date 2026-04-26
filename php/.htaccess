@@ -1,0 +1,5 @@
+ErrorDocument 400 /~vvasilev1/UCLan-Shop-Extended/php/customErrorPage.php
+ErrorDocument 401 /~vvasilev1/UCLan-Shop-Extended/php/customErrorPage.php
+ErrorDocument 403 /~vvasilev1/UCLan-Shop-Extended/php/customErrorPage.php
+ErrorDocument 404 /~vvasilev1/UCLan-Shop-Extended/php/customErrorPage.php
+ErrorDocument 500 /~vvasilev1/UCLan-Shop-Extended/php/customErrorPage.php
