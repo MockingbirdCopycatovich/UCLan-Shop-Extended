@@ -170,6 +170,17 @@
                     <?php endif; ?>
             </div>
         </div>
+        
+        <!-- 
+            Button to return to the product page.
+            Provides convenient navigation within the application.
+        -->
+        <a href="products.php" class="back-btn">Back to Products</a>
+        <!-- 
+            Button to return to the cart page.
+            Provides convenient navigation within the application.
+        -->
+        <a href="cart.php" class="back-btn">Back to Cart</a>
 
         <!-- REVIEWS -->
         <h3>Leave a review</h3>
