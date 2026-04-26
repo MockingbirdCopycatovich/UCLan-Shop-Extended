@@ -158,6 +158,10 @@
                                     <p>Subtotal: £<?php echo $sum; ?></p>
                                 </div>
 
+                                <a class="read-more" href="item.php?id=<?php echo $id; ?>">
+                                    Read more
+                                </a>
+
                                 <div class="cart-actions">
                                     <div class="count-controls">
                                         <a class="btn-minus" href="cart.php?minus=<?php echo $id; ?>">-</a>
