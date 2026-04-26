@@ -145,7 +145,7 @@
                     <h2><?php echo htmlspecialchars($product['product_title']); ?></h2>
                     <p class="item-desc"><?php echo htmlspecialchars($product['product_desc']); ?></p>
 
-                    <p class="item-price">£<?php echo htmlspecialchars($product['product_price']); ?></p>
+                    <p class="item-price" id="price">£<?php echo htmlspecialchars($product['product_price']); ?></p>
 
                     <p class="item-stock">Status: <?php echo htmlspecialchars($product['product_stock']); ?></p>
 
@@ -161,12 +161,12 @@
                     ?>
 
                     <?php if(isset($_SESSION['user_id'])): ?>
-                        <a href="cart.php?add=<?php echo $id; ?>" class="add-cart-big">
+                        <a class="add-cart" href="cart.php?add=<?php echo $id; ?>" class="add-cart-big">
                             Add to Cart
                         </a>
                 </div>
                     <?php else: ?>
-                        <a href="login.php">Login to buy</a>
+                        <a class="login-buy" href="login.php">Login to buy</a>
                     <?php endif; ?>
             </div>
         </div>
