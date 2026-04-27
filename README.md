@@ -24,8 +24,8 @@ This project is a responsive front-end web application developed as part of **As
 ## Test Account
 Use the following credentials to test the system:
 
-- **Email:** 
-- **Password:**   
+- **Email:** test@test.com
+- **Password:** 123E1a
 
 ---
 
