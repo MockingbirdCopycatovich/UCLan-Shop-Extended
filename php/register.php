@@ -178,6 +178,6 @@
             <p> Registered Charity Number: 1142616 <br></p>
         </div>
     </footer>
-    <script src="../js/index.js"></script>
+    <script src="../js/register.js"></script>
 </body>
 </html>

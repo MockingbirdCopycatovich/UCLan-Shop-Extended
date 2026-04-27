@@ -899,3 +899,21 @@ footer {
     transform: translateY(-1px);
     transition: 0.2s;
 }
+
+/* Register */
+.form-messages {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.form-messages.error {
+    background: #ffdddd;
+    color: #a10000;
+}
+
+.form-messages.success {
+    background: #ddffdd;
+    color: #0a6b0a;
+}
