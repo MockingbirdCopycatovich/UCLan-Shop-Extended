@@ -241,9 +241,9 @@
                     <div class="cart-summary">
 
                         <div class="promo-section">
-                            <input type="text" placeholder="Promo code">
-                            <button>Apply</button>
-                            <p></p>
+                            <input type="text" id="promoInput" placeholder="Promo code">
+                            <button id="applyPromo">Apply</button>
+                            <p id="promoMessage"></p>
                         </div>
 
                         <div class="summary-right">
