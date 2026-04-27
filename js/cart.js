@@ -35,3 +35,45 @@ if (logoutBtn) {
         });
     });
 }
+
+
+// Promo code logic
+
+const promoInput = document.getElementById("promoInput");
+const applyPromo = document.getElementById("applyPromo");
+const promoMessage = document.getElementById("promoMessage");
+
+const promoCodes = {};
+
+applyPromo.addEventListener("click", () => {
+
+    const code = promoInput.value.trim().toUpperCase();
+
+    if (code === "") {
+        promoMessage.textContent = "Please enter a promo code";
+        promoMessage.style.color = "red";
+        return;
+    }
+
+    if (promoCodes[code]) {
+        promoMessage.textContent = `Promo code applied! Discount: ${promoCodes[code]}%`;
+        promoMessage.style.color = "green";
+
+        const totalElement = document.getElementById("total-price");
+
+        if (totalElement) {
+            let totalText = totalElement.textContent.replace("Total: £", "");
+            let total = parseFloat(totalText);
+
+            let discount = promoCodes[code];
+            let newTotal = total - (total * discount / 100);
+
+            totalElement.textContent = `Total: £${newTotal.toFixed(2)}`;
+        }
+
+    } else {
+        promoMessage.textContent = "Promo code does not exist";
+        promoMessage.style.color = "red";
+    }
+
+});

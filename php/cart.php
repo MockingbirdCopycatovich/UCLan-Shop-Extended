@@ -45,42 +45,58 @@
         if(!empty($cart)){
 
             $total = 0;
+            $outOfStockItems = [];
 
             foreach($cart as $id => $qty){
 
-                $stmt = $conn->prepare("SELECT product_price FROM tbl_products WHERE product_id=?");
+                $stmt = $conn->prepare("SELECT product_price, product_title, product_stock 
+                                        FROM tbl_products 
+                                        WHERE product_id=?");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();
                 $res = $stmt->get_result()->fetch_assoc();
 
                 if($res){
+                    if($res['product_stock'] === "out-of-stock"){
+                        $outOfStockItems[] = $res['product_title'];
+                        continue;
+                    }
                     $total += $res['product_price'] * $qty;
                 }
             }
 
-            // INSERT ORDER
-            // превращаем cart в строку: 1:2,3:1 (id:qty)
-            $productString = [];
+            if(!empty($outOfStockItems)){
 
-            foreach($cart as $id => $qty){
-                $productString[] = $id . ":" . $qty;
+                $names = implode(", ", $outOfStockItems);
+
+                echo "<script>
+                        alert('Cannot proceed. These items are out of stock: $names');
+                      </script>";
+
+            } else {
+                // INSERT ORDER
+                $productString = [];
+
+                foreach($cart as $id => $qty){
+                    $productString[] = $id . ":" . $qty;
+                }
+
+                $productString = implode(",", $productString);
+
+                // INSERT ORDER
+                $stmt = $conn->prepare("
+                    INSERT INTO tbl_orders (user_id, product_ids)
+                    VALUES (?, ?)
+                ");
+
+                $stmt->bind_param("is", $_SESSION['user_id'], $productString);
+                $stmt->execute();
+
+                // clear cart
+                setcookie("cart", "", time() - 3600, "/");
+
+                $successMsg = "Thank you! Your order has been placed.";
             }
-
-            $productString = implode(",", $productString);
-
-            // INSERT ORDER
-            $stmt = $conn->prepare("
-                INSERT INTO tbl_orders (user_id, product_ids)
-                VALUES (?, ?)
-            ");
-
-            $stmt->bind_param("is", $_SESSION['user_id'], $productString);
-            $stmt->execute();
-
-            // clear cart
-            setcookie("cart", "", time() - 3600, "/");
-
-            $successMsg = "Thank you! Your order has been placed.";
         }
     }
 
@@ -215,6 +231,7 @@
                                     <h3><?php echo htmlspecialchars($product['product_title']); ?></h3>
                                     <p><?php echo htmlspecialchars($product['product_desc']); ?></p>
                                     <p>Price: £<?php echo htmlspecialchars($price); ?></p>
+                                    <p>Status: <?php echo htmlspecialchars($product['product_stock']); ?></p>
                                     <p>Subtotal: £<?php echo htmlspecialchars($sum); ?></p>
                                 </div>
 
@@ -241,9 +258,9 @@
                     <div class="cart-summary">
 
                         <div class="promo-section">
-                            <input type="text" placeholder="Promo code">
-                            <button>Apply</button>
-                            <p></p>
+                            <input type="text" id="promoInput" placeholder="Promo code">
+                            <button id="applyPromo">Apply</button>
+                            <p id="promoMessage"></p>
                         </div>
 
                         <div class="summary-right">
