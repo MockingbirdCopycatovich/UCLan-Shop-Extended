@@ -43,7 +43,7 @@
 
             <!-- Extra navigation -->
             <?php if(isset($_SESSION['user'])): ?>
-                <a href="logout.php">Logout</a>
+                <a href="#" id="logoutBtn">Logout</a>
             <?php else: ?>
                 <a href="login.php">Login</a>
             <?php endif; ?>
@@ -67,7 +67,7 @@
 
             <!-- Extra navigation for mobile -->
             <?php if(isset($_SESSION['user'])): ?>
-                <a href="logout.php">Logout</a>
+                <a href="#" id="logoutBtn">Logout</a>
             <?php else: ?>
                 <a href="login.php">Login</a>
             <?php endif; ?>
