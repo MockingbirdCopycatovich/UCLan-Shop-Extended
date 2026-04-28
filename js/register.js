@@ -71,14 +71,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const emailValue = email.value.trim();
         const passValue = password.value;
 
-        // EMAIL CHECK
+        // Email check
         if (!validateEmail(emailValue)) {
             e.preventDefault();
             showMessage("Invalid email format");
             return;
         }
 
-        // PASSWORD CHECK
+        // Passwird check
         const passCheck = validatePassword(passValue);
 
         if (!passCheck.valid) {
@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // OK
         showMessage("All good!", "success");
     });
 });

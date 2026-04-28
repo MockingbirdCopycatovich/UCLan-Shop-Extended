@@ -53,7 +53,10 @@
 
         <!-- Welcome words for logined users -->
         <?php if(isset($_SESSION['user'])): ?>
-            <span>Welcome, <?php echo $_SESSION['user']; ?></span>
+            <div class="welcome-box">
+                <span class="welcome-text">Welcome</span>
+                <span class="welcome-user"><?php echo htmlspecialchars($_SESSION['user']); ?></span>
+            </div>
         <?php endif; ?>
 
         <!-- 

@@ -724,7 +724,7 @@ footer {
 
 @media (max-width: 600px) {
     .reviews-container {
-        grid-template-columns: 1fr; /* 1 в ряд на мобилке */
+        grid-template-columns: 1fr;
     }
 }
 

@@ -34,7 +34,7 @@
     // save cookie
     setcookie("cart", json_encode($cart), time() + 3600, "/");
 
-    // CHECKOUT
+    // Checkout
     if(isset($_POST['checkout'])){
 
         if(!isset($_SESSION['user_id'])){
@@ -74,7 +74,6 @@
                       </script>";
 
             } else {
-                // INSERT ORDER
                 $productString = [];
 
                 foreach($cart as $id => $qty){
@@ -83,7 +82,7 @@
 
                 $productString = implode(",", $productString);
 
-                // INSERT ORDER
+                // INSERT order
                 $stmt = $conn->prepare("
                     INSERT INTO tbl_orders (user_id, product_ids)
                     VALUES (?, ?)
@@ -143,7 +142,10 @@
 
         <!-- Welcome words for logined users -->
         <?php if(isset($_SESSION['user'])): ?>
-            <span>Welcome, <?php echo $_SESSION['user']; ?></span>
+            <div class="welcome-box">
+                <span class="welcome-text">Welcome</span>
+                <span class="welcome-user"><?php echo htmlspecialchars($_SESSION['user']); ?></span>
+            </div>
         <?php endif; ?>
 
         <!-- 
